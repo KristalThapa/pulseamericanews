@@ -1,0 +1,598 @@
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--red:#C8102E;--red-dark:#8B0A1E;--gold:#E8A020;
+--bg:#0A0A0F;--bg2:#12121A;--bg3:#1C1C28;
+--border:#2A2A38;--text:#F0EEE8;--muted:#9896A4;
+--card-bg:#12121A;--input-bg:#0A0A0F;
+}
+[data-theme="light"]{
+--bg:#F5F4F0;--bg2:#FFFFFF;--bg3:#ECEAE4;
+--border:#D8D6CE;--text:#1A1A22;--muted:#6B6978;
+--card-bg:#FFFFFF;--input-bg:#F5F4F0;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Source Sans 3',Georgia,sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;transition:background .3s,color .3s}
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+
+.ticker-wrap{background:var(--red);padding:7px 0;overflow:hidden;position:relative}
+.ticker-label{display:inline-block;background:var(--bg);color:var(--text);font-size:10px;font-weight:700;letter-spacing:2px;padding:3px 10px;margin-right:14px;vertical-align:middle;text-transform:uppercase;transition:background .3s,color .3s}
+.ticker-track{display:flex;animation:tick 50s linear infinite;white-space:nowrap}
+.ticker-track:hover{animation-play-state:paused}
+.ticker-item{font-size:12px;font-weight:600;padding:0 36px;color:#fff;letter-spacing:.3px}
+.ticker-item::before{content:'●';margin-right:8px;opacity:.6}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+nav{background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;transition:background .3s,border-color .3s}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo-box{width:34px;height:34px;background:var(--red);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-box svg{width:18px;height:18px}
+.logo-text{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:900;color:var(--text);letter-spacing:-.5px;transition:color .3s}
+.logo-text b{color:var(--red)}
+.nav-cats{display:flex;gap:2px}
+.nav-cats a{color:var(--muted);font-size:12px;font-weight:700;text-decoration:none;padding:6px 10px;border-radius:4px;transition:color .2s,background .2s;text-transform:uppercase;letter-spacing:.7px}
+.nav-cats a:hover,.nav-cats a.active{color:var(--red);background:rgba(200,16,46,.08)}
+.nav-right{display:flex;align-items:center;gap:10px}
+
+.theme-toggle{background:var(--bg3);border:1px solid var(--border);border-radius:50px;padding:4px;cursor:pointer;display:flex;align-items:center;gap:3px;transition:background .3s,border-color .3s}
+.theme-btn{width:30px;height:28px;border-radius:46px;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;background:transparent;transition:background .2s}
+.theme-btn.active{background:var(--red);color:white}
+.theme-btn:not(.active){color:var(--muted)}
+
+.btn-sub{background:var(--red);color:white;border:none;padding:7px 16px;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px;transition:background .2s;font-family:inherit}
+.btn-sub:hover{background:var(--red-dark)}
+.hamburger{display:none;background:none;border:none;color:var(--text);cursor:pointer;padding:4px}
+.hamburger svg{width:22px;height:22px}
+.mobile-menu{display:none;background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 20px;transition:background .3s}
+.mobile-menu.open{display:block}
+.mobile-menu a{display:block;color:var(--muted);font-size:13px;font-weight:700;text-decoration:none;padding:10px 0;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.7px}
+
+.datebar{max-width:1280px;margin:0 auto;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;background:var(--bg2);border-bottom:1px solid var(--border);transition:background .3s}
+.datebar span{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+
+.hero{max-width:1280px;margin:28px auto;padding:0 20px;display:grid;grid-template-columns:2fr 1fr;gap:16px}
+.hero-main{position:relative;border-radius:8px;overflow:hidden;cursor:pointer}
+.hero-main img{width:100%;height:460px;object-fit:cover;display:block;filter:brightness(.65);transition:filter .3s}
+.hero-main:hover img{filter:brightness(.8)}
+.hero-overlay{position:absolute;bottom:0;left:0;right:0;padding:26px;background:linear-gradient(transparent,rgba(0,0,0,.93))}
+.cat-badge{display:inline-block;background:var(--red);color:white;font-size:10px;font-weight:700;letter-spacing:1.5px;padding:3px 9px;border-radius:3px;margin-bottom:8px;text-transform:uppercase}
+.hero-main h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(20px,2.8vw,34px);font-weight:900;line-height:1.15;color:white;margin-bottom:7px}
+.hero-meta{font-size:11px;color:rgba(255,255,255,.58);display:flex;gap:10px}
+
+.hero-side{display:flex;flex-direction:column;gap:14px}
+.side-card{background:var(--card-bg);border-radius:8px;overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:border-color .2s,background .3s}
+.side-card:hover{border-color:rgba(200,16,46,.5)}
+.side-card img{width:100%;height:130px;object-fit:cover;filter:brightness(.8)}
+.side-body{padding:13px}
+.side-cat{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--red);text-transform:uppercase;margin-bottom:5px}
+.side-card h3{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;line-height:1.25;color:var(--text)}
+.side-time{font-size:11px;color:var(--muted);margin-top:5px}
+
+.section{max-width:1280px;margin:44px auto;padding:0 20px}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.sec-title{font-family:'Playfair Display',Georgia,serif;font-size:21px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:9px;transition:color .3s}
+.sec-title::before{content:'';display:block;width:4px;height:22px;background:var(--red);border-radius:2px}
+.see-all{font-size:11px;font-weight:700;color:var(--red);text-decoration:none;letter-spacing:.8px;text-transform:uppercase;border:1px solid rgba(200,16,46,.4);padding:5px 10px;border-radius:3px;transition:background .2s}
+.see-all:hover{background:rgba(200,16,46,.1)}
+
+.news-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.news-card{background:var(--card-bg);border-radius:8px;overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:transform .2s,border-color .2s,background .3s}
+.news-card:hover{transform:translateY(-3px);border-color:rgba(200,16,46,.35)}
+.news-card img{width:100%;height:170px;object-fit:cover;filter:brightness(.85)}
+[data-theme="light"] .news-card img{filter:brightness(.92)}
+.news-body{padding:15px}
+.news-cat{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:5px}
+.news-card h3{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:700;line-height:1.25;color:var(--text);margin-bottom:7px;transition:color .3s}
+.news-card p{font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:9px}
+.news-ftr{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted)}
+.read-more{color:var(--red);font-weight:700;font-size:11px;text-decoration:none;letter-spacing:.5px;text-transform:uppercase}
+
+.feat-row{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}
+.feat-main{background:var(--card-bg);border-radius:8px;overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:border-color .2s,background .3s}
+.feat-main:hover{border-color:rgba(200,16,46,.35)}
+.feat-main img{width:100%;height:260px;object-fit:cover;filter:brightness(.82)}
+[data-theme="light"] .feat-main img{filter:brightness(.92)}
+.feat-main-body{padding:18px}
+.feat-main h2{font-family:'Playfair Display',Georgia,serif;font-size:21px;font-weight:900;line-height:1.2;color:var(--text);margin:8px 0;transition:color .3s}
+.feat-main p{font-size:13px;color:var(--muted);line-height:1.6}
+.feat-list-wrap{background:var(--card-bg);border-radius:8px;border:1px solid var(--border);padding:14px;transition:background .3s}
+.flist-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+.flist-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity .2s}
+.flist-item:hover{opacity:.75}
+.flist-item:last-child{border-bottom:none;padding-bottom:0}
+.flist-item img{width:76px;height:60px;object-fit:cover;border-radius:4px;flex-shrink:0}
+.flist-cat{font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--red);text-transform:uppercase;margin-bottom:3px}
+.flist-item h4{font-family:'Playfair Display',Georgia,serif;font-size:13px;font-weight:700;line-height:1.2;color:var(--text);transition:color .3s}
+.flist-item time{font-size:11px;color:var(--muted)}
+
+.world-strip{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 18px;margin-bottom:18px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;transition:background .3s}
+.ws-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-right:4px}
+.w-tag{background:rgba(255,255,255,.04);border:1px solid var(--border);padding:4px 11px;border-radius:20px;font-size:12px;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s}
+[data-theme="light"] .w-tag{background:rgba(0,0,0,.04)}
+.w-tag:hover{border-color:var(--red)}
+.w-tag.active{border-color:var(--red);background:rgba(200,16,46,.1);color:var(--red);font-weight:700}
+
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.tech-card{background:var(--bg3);border-radius:8px;padding:18px;border:1px solid var(--border);cursor:pointer;transition:border-color .2s,transform .2s,background .3s;position:relative;overflow:hidden}
+.tech-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold)}
+.tech-card:hover{border-color:rgba(232,160,32,.45);transform:translateY(-2px)}
+.tech-tag{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:7px}
+.tech-card h3{font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:700;line-height:1.25;color:var(--text);margin-bottom:7px;transition:color .3s}
+.tech-card p{font-size:12px;color:var(--muted);line-height:1.5}
+
+.sports-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.sport-card{border-radius:8px;overflow:hidden;position:relative;cursor:pointer;height:210px}
+.sport-card img{width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:filter .3s}
+.sport-card:hover img{filter:brightness(.68)}
+.sport-overlay{position:absolute;bottom:0;left:0;right:0;padding:14px;background:linear-gradient(transparent,rgba(0,0,0,.88))}
+.s-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1.5px;padding:2px 7px;border-radius:3px;margin-bottom:5px;text-transform:uppercase}
+.s-badge.live{background:var(--red);color:white}
+.s-badge.cat{background:rgba(255,255,255,.15);color:white;border:1px solid rgba(255,255,255,.3)}
+.sport-card h3{font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:700;line-height:1.2;color:white}
+
+.score-bar{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 18px;margin-bottom:18px;display:flex;gap:24px;flex-wrap:wrap;align-items:center;transition:background .3s}
+.score-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;flex-shrink:0}
+.score-item{display:flex;gap:7px;align-items:center}
+.score-divider{width:1px;height:18px;background:var(--border)}
+.live-dot{background:var(--red);color:white;font-size:9px;font-weight:800;padding:2px 5px;border-radius:2px;letter-spacing:1px}
+.score-text{font-size:13px;font-weight:600;color:var(--text);transition:color .3s}
+.score-sub{font-size:11px;color:var(--muted)}
+
+.sexed-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.sexed-card{background:var(--card-bg);border-radius:8px;padding:18px;border:1px solid var(--border);cursor:pointer;transition:border-color .2s,background .3s;position:relative;overflow:hidden}
+.sexed-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#7C3AED,#DB2777)}
+.sexed-card:hover{border-color:rgba(124,58,237,.4)}
+.sexed-cat{font-size:10px;font-weight:700;letter-spacing:1.5px;color:#9D71FF;text-transform:uppercase;margin-bottom:7px}
+.sexed-card h3{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:700;line-height:1.25;color:var(--text);margin-bottom:7px;transition:color .3s}
+.sexed-card p{font-size:13px;color:var(--muted);line-height:1.5}
+.sexed-author{font-size:11px;color:var(--muted);margin-top:10px}
+
+.nl-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:36px;text-align:center;max-width:600px;margin:0 auto;transition:background .3s}
+.nl-box h2{font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:900;color:var(--text);margin-bottom:7px;transition:color .3s}
+.nl-box p{color:var(--muted);font-size:13px;margin-bottom:22px}
+.nl-form{display:flex;gap:9px;max-width:400px;margin:0 auto;flex-wrap:wrap}
+.nl-form input{flex:1;min-width:180px;background:var(--input-bg);border:1px solid var(--border);color:var(--text);padding:10px 14px;border-radius:4px;font-size:13px;outline:none;transition:border-color .2s,background .3s;font-family:inherit}
+.nl-form input:focus{border-color:var(--red)}
+.nl-form button{background:var(--red);color:white;border:none;padding:10px 18px;border-radius:4px;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;font-family:inherit}
+.nl-form button:hover{background:var(--red-dark)}
+.nl-note{font-size:11px;color:var(--muted);margin-top:9px}
+
+footer{background:var(--bg2);border-top:1px solid var(--border);margin-top:56px;padding:36px 20px 18px;transition:background .3s,border-color .3s}
+.footer-inner{max-width:1280px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px;margin-bottom:28px}
+.footer-brand-desc{font-size:13px;color:var(--muted);margin-top:9px;line-height:1.6;max-width:220px}
+.footer-col h4{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--red);text-transform:uppercase;margin-bottom:12px}
+.footer-col a{display:block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:7px;transition:color .2s}
+.footer-col a:hover{color:var(--text)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer-bottom p{font-size:12px;color:var(--muted)}
+.social-links{display:flex;gap:8px}
+.soc-link{width:30px;height:30px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;font-size:11px;font-weight:700;transition:color .2s,border-color .2s}
+.soc-link:hover{color:var(--text);border-color:var(--red)}
+.footer-links{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+
+@media(max-width:1024px){
+.hero{grid-template-columns:1fr 1fr}
+.feat-row{grid-template-columns:1fr}
+.footer-top{grid-template-columns:1fr 1fr;gap:22px}
+}
+@media(max-width:768px){
+.nav-cats,.btn-sub{display:none}
+.hamburger{display:block}
+.hero{grid-template-columns:1fr}
+.hero-side{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+.side-card{min-width:200px}
+.hero-main img{height:280px}
+.feat-row{grid-template-columns:1fr}
+.footer-top{grid-template-columns:1fr 1fr}
+.score-bar{gap:12px}
+.score-divider{display:none}
+}
+@media(max-width:480px){
+.hero-main img{height:220px}
+.hero-main h1{font-size:18px}
+.footer-top{grid-template-columns:1fr}
+.nl-form{flex-direction:column}
+.nl-form input,.nl-form button{width:100%}
+.datebar{flex-direction:column;align-items:flex-start;gap:3px}
+.footer-bottom{flex-direction:column;align-items:flex-start}
+}
+</style>
+
+<div class="ticker-wrap">
+  <div style="display:flex;align-items:center;padding:0 20px">
+    <span class="ticker-label">Breaking</span>
+    <div style="overflow:hidden;flex:1">
+      <div class="ticker-track">
+        <span class="ticker-item">Senate passes historic climate bill with bipartisan support</span>
+        <span class="ticker-item">Federal Reserve holds interest rates steady amid inflation concerns</span>
+        <span class="ticker-item">White House announces new AI safety executive order</span>
+        <span class="ticker-item">U.S. Olympic team roster announced for 2026 Games</span>
+        <span class="ticker-item">Major earthquake strikes Pacific coast — USGS monitoring</span>
+        <span class="ticker-item">Apple unveils next-generation chip architecture at WWDC</span>
+        <span class="ticker-item">Senate passes historic climate bill with bipartisan support</span>
+        <span class="ticker-item">Federal Reserve holds interest rates steady amid inflation concerns</span>
+        <span class="ticker-item">White House announces new AI safety executive order</span>
+        <span class="ticker-item">U.S. Olympic team roster announced for 2026 Games</span>
+        <span class="ticker-item">Major earthquake strikes Pacific coast — USGS monitoring</span>
+        <span class="ticker-item">Apple unveils next-generation chip architecture at WWDC</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="logo-text">Pulse<b>America</b>News</div>
+    </a>
+    <div class="nav-cats">
+      <a href="#world" class="active">World</a>
+      <a href="#usa">USA</a>
+      <a href="#affairs">Affairs</a>
+      <a href="#sexed">Sex Ed</a>
+      <a href="#tech">Tech</a>
+      <a href="#sports">Sports</a>
+    </div>
+    <div class="nav-right">
+      <div class="theme-toggle" id="themeToggle" title="Switch theme">
+        <button class="theme-btn active" id="btnDark" onclick="setTheme('dark')" aria-label="Dark mode">🌙</button>
+        <button class="theme-btn" id="btnLight" onclick="setTheme('light')" aria-label="Light mode">☀️</button>
+      </div>
+      <button class="btn-sub">Subscribe</button>
+      <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#world">🌍 World News</a>
+    <a href="#usa">🇺🇸 USA News</a>
+    <a href="#affairs">📰 Current Affairs</a>
+    <a href="#sexed">💜 Sex Education</a>
+    <a href="#tech">💻 Technology</a>
+    <a href="#sports">🏆 Sports</a>
+  </div>
+</nav>
+
+<div style="background:var(--bg2);border-bottom:1px solid var(--border);transition:background .3s">
+  <div class="datebar">
+    <span>Wednesday, May 20, 2026</span>
+    <span>📍 Washington D.C. — 74°F · Partly Cloudy</span>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-main">
+    <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=900&q=80" alt="World News Hero">
+    <div class="hero-overlay">
+      <span class="cat-badge">World News</span>
+      <h1>Global Leaders Convene in Geneva for Emergency Climate Summit as Temperatures Break Records</h1>
+      <div class="hero-meta"><span>By Sarah Mitchell</span><span>·</span><span>2 hours ago</span><span>·</span><span>8 min read</span></div>
+    </div>
+  </div>
+  <div class="hero-side">
+    <div class="side-card">
+      <img src="https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?w=600&q=80" alt="USA">
+      <div class="side-body">
+        <div class="side-cat">USA News</div>
+        <h3>Senate Reaches Bipartisan Deal on Infrastructure Overhaul Bill</h3>
+        <div class="side-time">3 hours ago · 5 min read</div>
+      </div>
+    </div>
+    <div class="side-card">
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" alt="Tech">
+      <div class="side-body">
+        <div class="side-cat">Technology</div>
+        <h3>OpenAI Announces GPT-6 With Real-Time Multimodal Capabilities</h3>
+        <div class="side-time">5 hours ago · 4 min read</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="world">
+  <div class="sec-hdr">
+    <div class="sec-title">World News</div>
+    <a href="#" class="see-all">See All →</a>
+  </div>
+  <div class="world-strip">
+    <span class="ws-lbl">Regions:</span>
+    <span class="w-tag active">All</span>
+    <span class="w-tag">Europe</span>
+    <span class="w-tag">Asia</span>
+    <span class="w-tag">Middle East</span>
+    <span class="w-tag">Africa</span>
+    <span class="w-tag">Latin America</span>
+  </div>
+  <div class="news-grid">
+    <div class="news-card">
+      <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80" alt="NATO">
+      <div class="news-body">
+        <div class="news-cat">Europe</div>
+        <h3>NATO Expands Eastern Flank With New Rapid-Response Division</h3>
+        <p>Alliance commits 40,000 troops to frontline positions across Baltic states in unprecedented peacetime deployment.</p>
+        <div class="news-ftr"><span>4 hrs ago</span><a href="#" class="read-more">Read →</a></div>
+      </div>
+    </div>
+    <div class="news-card">
+      <img src="https://images.unsplash.com/photo-1464817739973-0128fe77aaa1?w=600&q=80" alt="Asia">
+      <div class="news-body">
+        <div class="news-cat">Asia-Pacific</div>
+        <h3>South Korea and Japan Sign Historic Defense Cooperation Pact</h3>
+        <p>Decades of diplomatic tension give way as both nations formalize a joint military intelligence framework.</p>
+        <div class="news-ftr"><span>6 hrs ago</span><a href="#" class="read-more">Read →</a></div>
+      </div>
+    </div>
+    <div class="news-card">
+      <img src="https://images.unsplash.com/photo-1565967511849-76a60a516170?w=600&q=80" alt="UN">
+      <div class="news-body">
+        <div class="news-cat">Middle East</div>
+        <h3>UN-Brokered Ceasefire Holds for Third Week in Gaza Corridor</h3>
+        <p>Humanitarian aid convoys resume operations as international monitors confirm compliance along key routes.</p>
+        <div class="news-ftr"><span>8 hrs ago</span><a href="#" class="read-more">Read →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="usa">
+  <div class="sec-hdr">
+    <div class="sec-title">USA News</div>
+    <a href="#" class="see-all">See All →</a>
+  </div>
+  <div class="feat-row">
+    <div class="feat-main">
+      <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=900&q=80" alt="Capitol">
+      <div class="feat-main-body">
+        <span class="cat-badge">Politics</span>
+        <h2>Supreme Court Rules on Presidential Immunity Case in Landmark 6-3 Decision</h2>
+        <p>The ruling is expected to reshape the scope of executive power for generations, drawing immediate reactions from both parties on Capitol Hill.</p>
+        <div style="margin-top:12px;font-size:12px;color:var(--muted);display:flex;gap:12px">
+          <span>By James Caldwell</span><span>·</span><span>1 hr ago</span><span>·</span><span>10 min read</span>
+        </div>
+      </div>
+    </div>
+    <div class="feat-list-wrap">
+      <div class="flist-lbl">More from USA</div>
+      <div class="flist-item">
+        <img src="https://images.unsplash.com/photo-1485795959911-ea5ebf41b6ae?w=200&q=80" alt="Economy">
+        <div><div class="flist-cat">Economy</div><h4>Unemployment Hits 3.2% as Job Market Shows Resilience</h4><time>2 hrs ago</time></div>
+      </div>
+      <div class="flist-item">
+        <img src="https://images.unsplash.com/photo-1587036197823-8b63bc70bc85?w=200&q=80" alt="Health">
+        <div><div class="flist-cat">Health</div><h4>FDA Approves Breakthrough Alzheimer's Drug for Wider Use</h4><time>4 hrs ago</time></div>
+      </div>
+      <div class="flist-item">
+        <img src="https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=200&q=80" alt="Climate">
+        <div><div class="flist-cat">Environment</div><h4>California Wildfire Season Starts Two Months Early</h4><time>7 hrs ago</time></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="affairs">
+  <div class="sec-hdr">
+    <div class="sec-title">Current Affairs</div>
+    <a href="#" class="see-all">See All →</a>
+  </div>
+  <div class="news-grid">
+    <div class="news-card">
+      <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&q=80" alt="Fed">
+      <div class="news-body">
+        <div class="news-cat" style="color:var(--red)">Economy</div>
+        <h3>Fed Chair Signals Rate Cuts May Begin in Q3 as Inflation Cools</h3>
+        <p>Markets rally sharply after remarks point toward a September pivot in monetary policy.</p>
+        <div class="news-ftr"><span>1 hr ago</span><a href="#" class="read-more">Read →</a></div>
+      </div>
+    </div>
+    <div class="news-card">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Social">
+      <div class="news-body">
+        <div class="news-cat" style="color:var(--red)">Society</div>
+        <h3>Rising Mental Health Crisis Among Gen Z Prompts Congressional Hearing</h3>
+        <p>New CDC data shows record rates of anxiety among 16–24 year olds, prompting Senate action.</p>
+        <div class="news-ftr"><span>3 hrs ago</span><a href="#" class="read-more">Read →</a></div>
+      </div>
+    </div>
+    <div class="news-card">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Loans">
+      <div class="news-body">
+        <div class="news-cat" style="color:var(--red)">Education</div>
+        <h3>Student Loan Forgiveness Program Faces New Legal Challenge in Appeals Court</h3>
+        <p>A coalition of eight states files a joint suit challenging the administration's latest rollout.</p>
+        <div class="news-ftr"><span>5 hrs ago</span><a href="#" class="read-more">Read →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="sexed">
+  <div class="sec-hdr">
+    <div class="sec-title">Sex Education</div>
+    <a href="#" class="see-all" style="color:#9D71FF;border-color:rgba(157,113,255,.4)">See All →</a>
+  </div>
+  <div style="background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.2);border-radius:8px;padding:11px 15px;margin-bottom:18px;display:flex;gap:10px;align-items:flex-start">
+    <span style="font-size:16px;flex-shrink:0;margin-top:2px">📚</span>
+    <p style="font-size:12px;color:var(--muted);line-height:1.5"><strong style="color:#C4B5FD">Evidence-based health education</strong> — Written by certified educators, therapists, and medical professionals. Informational and age-appropriate.</p>
+  </div>
+  <div class="sexed-grid">
+    <div class="sexed-card">
+      <div class="sexed-cat">Health & Wellness</div>
+      <h3>Understanding Consent: A Comprehensive Guide for Teens and Young Adults</h3>
+      <p>Experts break down communication, boundaries, and healthy relationship dynamics.</p>
+      <div class="sexed-author">By Dr. Karen Walsh, M.D. · 6 min read</div>
+    </div>
+    <div class="sexed-card">
+      <div class="sexed-cat">Reproductive Health</div>
+      <h3>New Study Reveals Gaps in Reproductive Health Education Across U.S. States</h3>
+      <p>Johns Hopkins research shows significant disparities in what students are taught across regions.</p>
+      <div class="sexed-author">By Prof. Lisa Chen · 8 min read</div>
+    </div>
+    <div class="sexed-card">
+      <div class="sexed-cat">LGBTQ+ Health</div>
+      <h3>Healthcare Access for LGBTQ+ Youth: What Parents and Providers Need to Know</h3>
+      <p>Pediatric health organizations release joint guidelines for affirming care for LGBTQ+ minors.</p>
+      <div class="sexed-author">By Alex Rivera, LCSW · 7 min read</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tech">
+  <div class="sec-hdr">
+    <div class="sec-title">Technology</div>
+    <a href="#" class="see-all">See All →</a>
+  </div>
+  <div class="tech-grid">
+    <div class="tech-card">
+      <div class="tech-tag">Artificial Intelligence</div>
+      <h3>AI Models Now Pass the Bar Exam with 96% Accuracy, Stanford Study Finds</h3>
+      <p>Legal professionals debate implications as large language models outperform human averages.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-tag">Cybersecurity</div>
+      <h3>Major Data Breach Exposes 200 Million Records at Financial Services Giant</h3>
+      <p>Investigators trace the attack to a nation-state actor using a zero-day exploit.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-tag">Space Tech</div>
+      <h3>SpaceX Starship Completes First Crewed Lunar Orbital Mission Successfully</h3>
+      <p>Historic mission marks a turning point in the new space race as Artemis prepares for landing.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-tag">Consumer Tech</div>
+      <h3>Apple Vision Pro 2 Sells Out in 6 Minutes, Pre-Orders Hit 3 Million Units</h3>
+      <p>Updated spatial computing headset features lighter form factor and all-day battery life.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="sports">
+  <div class="sec-hdr">
+    <div class="sec-title">Sports</div>
+    <a href="#" class="see-all">See All →</a>
+  </div>
+  <div class="score-bar">
+    <span class="score-lbl">Live Scores</span>
+    <div class="score-item"><span class="live-dot">LIVE</span><span class="score-text">Lakers 94 – Celtics 88</span><span class="score-sub">Q4 3:22</span></div>
+    <div class="score-divider"></div>
+    <div class="score-item"><span class="live-dot">LIVE</span><span class="score-text">Yankees 3 – Red Sox 1</span><span class="score-sub">7th Inning</span></div>
+    <div class="score-divider"></div>
+    <div class="score-item"><span class="score-sub">Final:</span><span class="score-text">Chiefs 27 – Eagles 20</span></div>
+  </div>
+  <div class="sports-grid">
+    <div class="sport-card">
+      <img src="https://images.unsplash.com/photo-1546519638405-a9f9a04bbf1c?w=700&q=80" alt="NBA">
+      <div class="sport-overlay"><span class="s-badge live">Live</span><h3>Lakers-Celtics Game 6 Goes to Wire in Overtime Thriller</h3></div>
+    </div>
+    <div class="sport-card">
+      <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=700&q=80" alt="Soccer">
+      <div class="sport-overlay"><span class="s-badge cat">Soccer</span><h3>USMNT Clinches World Cup Qualification With Late Winner vs. Mexico</h3></div>
+    </div>
+    <div class="sport-card">
+      <img src="https://images.unsplash.com/photo-1542144582-1ba00456b5e3?w=700&q=80" alt="Tennis">
+      <div class="sport-overlay"><span class="s-badge cat">Tennis</span><h3>Sinner Defeats Djokovic in Five Sets to Win French Open Title</h3></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="nl-box">
+    <div style="font-size:26px;margin-bottom:8px">📬</div>
+    <h2>Stay Ahead of the Story</h2>
+    <p>Get the day's most important headlines delivered to your inbox every morning at 7 AM EST. No spam, ever.</p>
+    <div class="nl-form">
+      <input type="email" placeholder="Your email address">
+      <button>Subscribe Free</button>
+    </div>
+    <p class="nl-note">Join 2.4 million readers · Unsubscribe anytime</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="logo-box" style="width:28px;height:28px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <span style="font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:900;color:var(--text)">Pulse<span style="color:var(--red)">America</span>News</span>
+        </div>
+        <p class="footer-brand-desc">America's most trusted source for breaking news, in-depth reporting, and essential coverage across every beat that matters.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <a href="#">World News</a>
+        <a href="#">USA News</a>
+        <a href="#">Current Affairs</a>
+        <a href="#">Sex Education</a>
+        <a href="#">Technology</a>
+        <a href="#">Sports</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Our Journalists</a>
+        <a href="#">Editorial Standards</a>
+        <a href="#">Corrections Policy</a>
+        <a href="#">Advertise</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="#">Newsletter</a>
+        <a href="#">Podcast</a>
+        <a href="#">RSS Feed</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Tip Line</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 PulseAmericaNews. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#" style="font-size:12px;color:var(--muted);text-decoration:none">Privacy</a>
+        <a href="#" style="font-size:12px;color:var(--muted);text-decoration:none">Terms</a>
+        <a href="#" style="font-size:12px;color:var(--muted);text-decoration:none">Cookies</a>
+        <div class="social-links">
+          <a href="#" class="soc-link" aria-label="Twitter">X</a>
+          <a href="#" class="soc-link" aria-label="Facebook">fb</a>
+          <a href="#" class="soc-link" aria-label="Instagram">ig</a>
+          <a href="#" class="soc-link" aria-label="YouTube">yt</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function setTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  document.getElementById('btnDark').classList.toggle('active', theme === 'dark');
+  document.getElementById('btnLight').classList.toggle('active', theme === 'light');
+  localStorage.setItem('pan-theme', theme);
+}
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+document.querySelectorAll('.w-tag').forEach(t=>{
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.w-tag').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+document.querySelectorAll('.nav-cats a').forEach(a=>{
+  a.addEventListener('click',function(){
+    document.querySelectorAll('.nav-cats a').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+(function(){
+  const saved = localStorage.getItem('pan-theme') || 'dark';
+  setTheme(saved);
+})();
+</script>
