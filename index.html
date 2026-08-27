@@ -1,4 +1,3 @@
-
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -78,7 +77,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;
 .see-all:hover{background:rgba(200,16,46,.1)}
 
 .news-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-.news-card{background:var(--card-bg);border-radius:8px;overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:transform .2s,border-color .2s,background .3s}
+.news-card{background:var(--card-bg);border-radius:8px;overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:transform .2s,border-color .2s,background .3s;text-decoration:none;display:block}
 .news-card:hover{transform:translateY(-3px);border-color:rgba(200,16,46,.35)}
 .news-card img{width:100%;height:170px;object-fit:cover;filter:brightness(.85)}
 [data-theme="light"] .news-card img{filter:brightness(.92)}
@@ -311,6 +310,15 @@ footer{background:var(--bg2);border-top:1px solid var(--border);margin-top:56px;
     <span class="w-tag">Latin America</span>
   </div>
   <div class="news-grid">
+    <a href="news/water-wars-article.html" class="news-card">
+      <img src="/images/New%20folder/word%20news/1st/water-wars-global-crisis-hero.avif" alt="Aerial view of a cracked dry lakebed illustrating the global water crisis">
+      <div class="news-body">
+        <div class="news-cat">Climate & Security</div>
+        <h3>Water Wars: The Coming Global Crisis That Will Reshape Borders and Spark Conflicts</h3>
+        <p>Over 2 billion people already lack access to clean water. Experts say armed conflict over freshwater resources is no longer a theory — it's a timeline.</p>
+        <div class="news-ftr"><span>Just published</span><span class="read-more">Read →</span></div>
+      </div>
+    </a>
     <div class="news-card">
       <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80" alt="NATO">
       <div class="news-body">
